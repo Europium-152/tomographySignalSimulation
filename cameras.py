@@ -1,17 +1,32 @@
-
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from shapely.geometry import Point, LineString
 
+
+######################################################################################
+#                               Edit this parameters                                ##
+                                                                                    ##
+t_pinhole_x = 5.    # Top pinhole x coordinate                                      ##
+t_pinhole_y = 97.   # Top pinhole y coordinate                                      ##
+                                                                                    ##
+f_pinhole_x = 109.  # Front pinhole x coordinate                                    ##
+f_pinhole_y = 0.    # Front pinhole y coordinate                                    ##
+                                                                                    ##
+t_dist = 9.  # Distance between Top pinhole and sensors                             ##
+f_dist = 9.  # Distance between Front pinhole and sensors                           ##
+                                                                                    ##
+LoS_radius = 100.  # Radius for the calculation of the lines of sight               ##
+                                                                                    ##
+# NOTES:                                                                            ##
+# All positions are defined relative to the center of the vessel.                   ##
+# All distances are in mm.                                                          ##
+# The radius for the lines of sight should match the area                           ##
+# where the plasma is expected to be.                                               ##
+                                                                                    ##
+######################################################################################
+
 # -----------------------------------------------------------------------------------------
-
-t_pinhole_x = 5.
-t_pinhole_y = 97.
-
-f_pinhole_x = 109.
-f_pinhole_y = 0.
 
 print('t_pinhole_x:', t_pinhole_x)
 print('t_pinhole_y:', t_pinhole_y)
@@ -21,16 +36,15 @@ print('f_pinhole_y:', f_pinhole_y)
 
 # -----------------------------------------------------------------------------------------
 
-n = 16            # number of detectors per camera
-size = 0.75       # detector size
-space = 0.2       # space between detectors
-dist = 9.0        # distance from camera to pinhole
-step = size+space # distance between the centers of adjacent detectors
+n = 16             # number of detectors per camera
+size = 0.75        # detector size
+space = 0.2        # space between detectors
+step = size+space  # distance between the centers of adjacent detectors
 
 t_detector_x = t_pinhole_x - (n-1)*step/2. + np.arange(n)*(step)
-t_detector_y = (t_pinhole_y + dist) * np.ones(n)
+t_detector_y = (t_pinhole_y + t_dist) * np.ones(n)
 
-f_detector_x = (f_pinhole_x + dist) * np.ones(n)
+f_detector_x = (f_pinhole_x + f_dist) * np.ones(n)
 f_detector_y = f_pinhole_y + (n-1)*step/2. - np.arange(n)*(step)
 
 print('t_detector_x:', t_detector_x)
@@ -40,7 +54,6 @@ print('f_detector_x:', f_detector_x)
 print('f_detector_y:', f_detector_y)
 
 # -----------------------------------------------------------------------------------------
-LoS_radius=85.
 coords = []
 
 for i in range(n):
@@ -105,5 +118,5 @@ plt.xlabel('x (mm)')
 plt.ylabel('y (mm)')
 
 plt.title('cameras')
-plt.savefig('./images/cameras.png',dpi = 300)
+plt.savefig('cameras.png', dpi=300)
 plt.show()
