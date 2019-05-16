@@ -80,6 +80,7 @@ for row in df.itertuples():
         y_mean = np.mean(yy)
         (i, j) = transform(x_mean, y_mean)
         projection[i,j] = segment.length
+    projection *= row.etendue  # Correct for the etendue
     projections.append(projection)
     
 projections = np.array(projections)
