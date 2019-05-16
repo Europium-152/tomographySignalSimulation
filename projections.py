@@ -103,7 +103,7 @@ save_obj(proj_dic, projections_file_name)
 # -------------------------------------------------------------------------
 
 vmin = 0.
-vmax = np.sqrt(((x_max-x_min)/n_cols)**2 + ((y_max-y_min)/n_rows)**2)
+vmax = np.max(projections)
 
 ni = 4
 nj = 4
